@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:recipe_app/screens/categoryScreen.dart';
+import 'package:recipe_app/screens/tabs.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
             ),
             textTheme: GoogleFonts.latoTextTheme(),
           ),
-          home: CategoryScreen(),
+          home: TabScreen(),
         );
       },
     );

@@ -6,11 +6,11 @@ class MealScreen extends StatelessWidget {
   MealScreen({
     super.key,
     required this.meals,
-    required this.title,
+    this.title,
   });
 
   final List<Meal> meals;
-  final String title;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +41,13 @@ class MealScreen extends StatelessWidget {
       );
     }
 
+    if (title == null) {
+      return content;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(title!),
       ),
       body: content,
     );

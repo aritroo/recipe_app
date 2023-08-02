@@ -18,11 +18,12 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: Color.fromRGBO(223, 255, 216, 1),
             colorScheme: ColorScheme.fromSeed(
               seedColor: Color.fromARGB(255, 131, 57, 0),
-
-              // brightness: Brightness.dark,
             ),
             appBarTheme: AppBarTheme(
               backgroundColor: const Color.fromARGB(255, 244, 181, 202),
+            ),
+            cardTheme: CardTheme(
+              color: Colors.white,
             ),
             textTheme: GoogleFonts.latoTextTheme(),
           ),

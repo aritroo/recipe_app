@@ -26,8 +26,7 @@ class MealItem extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => MealDetailScreen(
-          title: meals.title,
-          url: meals.imageUrl,
+          meal: meals,
         ),
       ),
     );
@@ -36,10 +35,9 @@ class MealItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white,
-      margin: EdgeInsets.all(6),
+      margin: EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(20),
       ),
       clipBehavior: Clip.hardEdge,
       elevation: 2,
@@ -89,21 +87,24 @@ class MealItem extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  SizedBox(
+                    height: 2.w,
+                  ),
                   MealTrait(
                     icon: Icons.schedule,
                     label: '${meals.duration} min',
                   ),
                   SizedBox(
-                    width: 3.w,
+                    width: 8.w,
                   ),
                   MealTrait(
                     icon: Icons.work,
                     label: complexityText,
                   ),
                   SizedBox(
-                    width: 3.w,
+                    width: 6.w,
                   ),
                   MealTrait(
                     icon: Icons.attach_money,

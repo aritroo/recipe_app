@@ -8,10 +8,9 @@ import 'package:recipe_app/widgets/caregoryItem.dart';
 class CategoryScreen extends StatelessWidget {
   const CategoryScreen({
     super.key,
-    required this.onSelectFavorite,
     required this.availableMeals,
   });
-  final void Function(Meal meal) onSelectFavorite;
+
   final List<Meal> availableMeals;
   void _selectCategory(BuildContext context, Category category) {
     // Navigator.push(
@@ -30,7 +29,6 @@ class CategoryScreen extends StatelessWidget {
         builder: (ctx) => MealScreen(
           meals: filteredMeals,
           title: category.title,
-          onSelectFavorite: onSelectFavorite,
         ),
       ),
     );

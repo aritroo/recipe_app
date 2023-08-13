@@ -6,13 +6,11 @@ class MealScreen extends StatelessWidget {
   MealScreen({
     super.key,
     required this.meals,
-    required this.onSelectFavorite,
     this.title,
   });
 
   final List<Meal> meals;
   final String? title;
-  final void Function(Meal meal) onSelectFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +39,6 @@ class MealScreen extends StatelessWidget {
         itemCount: meals.length,
         itemBuilder: (ctx, index) => MealItem(
           meals: meals[index],
-          onSelectFavorite: onSelectFavorite,
         ),
       );
     }

@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:recipe_app/providers/filtersProvider.dart';
 
-enum Filter {
-  glutenFree,
-  lactoseFree,
-  vegetarian,
-  vegan,
-}
+class FilterScreen extends ConsumerStatefulWidget {
+  FilterScreen({super.key});
 
-class FilterScreen extends StatefulWidget {
-  FilterScreen({super.key, required this.currentFilters});
-  final Map<Filter, bool> currentFilters;
   @override
-  State<FilterScreen> createState() => _FilterScreenState();
+  ConsumerState<FilterScreen> createState() => _FilterScreenState();
 }
 
-class _FilterScreenState extends State<FilterScreen> {
+class _FilterScreenState extends ConsumerState<FilterScreen> {
   var _isGlutenFree = false;
   var _isLactoseFree = false;
   var _isVegetarian = false;
   var _isVegan = false;
   @override
   void initState() {
+    final activeFilters = ref.read(filtersProvider);
     super.initState();
-    _isGlutenFree = widget.currentFilters[Filter.glutenFree]!;
-    _isLactoseFree = widget.currentFilters[Filter.lactoseFree]!;
-    _isVegetarian = widget.currentFilters[Filter.vegetarian]!;
-    _isVegan = widget.currentFilters[Filter.vegan]!;
+    _isGlutenFree = activeFilters[Filter.glutenFree]!;
+    _isLactoseFree = activeFilters[Filter.lactoseFree]!;
+    _isVegetarian = activeFilters[Filter.vegetarian]!;
+    _isVegan = activeFilters[Filter.vegan]!;
   }
 
   @override
@@ -50,13 +46,14 @@ class _FilterScreenState extends State<FilterScreen> {
       // ),
       body: WillPopScope(
         onWillPop: () async {
-          Navigator.of(context).pop({
+          ref.read(filtersProvider.notifier).setFilters({
             Filter.glutenFree: _isGlutenFree,
             Filter.lactoseFree: _isLactoseFree,
             Filter.vegetarian: _isVegetarian,
             Filter.vegan: _isVegan,
           });
-          return false;
+
+          return true;
         },
         child: Column(
           children: [

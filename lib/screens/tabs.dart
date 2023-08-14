@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipe_app/providers/favoritesProvider.dart';
-import 'package:recipe_app/providers/mealsProvider.dart';
 import 'package:recipe_app/screens/categoryScreen.dart';
 import 'package:recipe_app/screens/filters.dart';
 import 'package:recipe_app/screens/mealScreen.dart';
 import 'package:recipe_app/widgets/mainDrawer.dart';
 import 'package:recipe_app/providers/filtersProvider.dart';
+import 'package:sizer/sizer.dart';
 
 const kInitialFilters = {
   Filter.glutenFree: false,
@@ -46,23 +46,7 @@ class _TabScreenState extends ConsumerState<TabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final meals = ref.watch(mealsProvider);
-    final avilableFilters = ref.watch(filtersProvider);
-    final availableMeals = meals.where((meal) {
-      if (avilableFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
-        return false;
-      }
-      if (avilableFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
-        return false;
-      }
-      if (avilableFilters[Filter.vegetarian]! && !meal.isVegetarian) {
-        return false;
-      }
-      if (avilableFilters[Filter.vegan]! && !meal.isVegan) {
-        return false;
-      }
-      return true;
-    }).toList();
+    final availableMeals = ref.watch(filteredMealsProvider);
     Widget activeScreen = CategoryScreen(
       availableMeals: availableMeals,
     );
@@ -85,9 +69,12 @@ class _TabScreenState extends ConsumerState<TabScreen> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: _setScreen,
         currentIndex: activeScreenIndex,
+        selectedItemColor: Colors.blue,
+        selectedFontSize: 11.sp,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.set_meal),
+            icon: Icon(Icons.category),
+            backgroundColor: Colors.blue.shade200,
             label: 'Categories',
           ),
           BottomNavigationBarItem(

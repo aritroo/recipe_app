@@ -13,7 +13,7 @@ class MealDetailScreen extends ConsumerWidget {
   });
 
   final Meal meal;
-
+  final count = 0;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final favoritesMeals = ref.watch(favoritesMealsProvider);
@@ -39,8 +39,23 @@ class MealDetailScreen extends ConsumerWidget {
                 ),
               );
             },
-            icon: Icon(
-              isFavorite ? Icons.star : Icons.star_border,
+            icon: AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) {
+                return RotationTransition(
+                  turns: Tween<double>(
+                    begin: 0.8,
+                    end: 1,
+                  ).animate(
+                    animation,
+                  ),
+                  child: child,
+                );
+              },
+              child: Icon(
+                isFavorite ? Icons.star : Icons.star_border,
+                key: ValueKey(isFavorite),
+              ),
             ),
           ),
         ],
@@ -51,13 +66,16 @@ class MealDetailScreen extends ConsumerWidget {
             Container(
               height: 30.h,
               width: double.infinity,
-              child: FadeInImage(
-                placeholder: MemoryImage(kTransparentImage),
-                image: NetworkImage(
-                  meal.imageUrl,
+              child: Hero(
+                tag: meal.id,
+                child: FadeInImage(
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: NetworkImage(
+                    meal.imageUrl,
+                  ),
+                  fit: BoxFit.cover,
+                  width: double.infinity,
                 ),
-                fit: BoxFit.cover,
-                width: double.infinity,
               ),
             ),
             SizedBox(
@@ -102,11 +120,37 @@ class MealDetailScreen extends ConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
             ),
-            for (final step in meal.steps)
-              Padding(
-                padding: EdgeInsets.all(4),
-                child: Text(step),
+            SizedBox(
+              height: 1.h,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(
+                vertical: 2.h,
               ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.black,
+                ),
+                borderRadius: BorderRadius.circular(7),
+              ),
+              height: 30.h,
+              width: 70.w,
+              padding: EdgeInsets.all(3),
+              child: ListView.builder(
+                itemCount: meal.steps.length,
+                itemBuilder: (ctx, index) => ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.purple.shade300,
+                    child: Text('${index + 1}'),
+                  ),
+                  title: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text(meal.steps[index]),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
